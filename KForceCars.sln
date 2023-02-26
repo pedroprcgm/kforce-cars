@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KForceCars", "KForceCars\KForceCars.csproj", "{0C8D1674-EB66-4E7F-B98F-9DAF33CDCDE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KForceCars.UnitTests", "KForceCars.UnitTests\KForceCars.UnitTests.csproj", "{33A82037-A5E9-4510-8C4F-767C1BED9F58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{0C8D1674-EB66-4E7F-B98F-9DAF33CDCDE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C8D1674-EB66-4E7F-B98F-9DAF33CDCDE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C8D1674-EB66-4E7F-B98F-9DAF33CDCDE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A82037-A5E9-4510-8C4F-767C1BED9F58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A82037-A5E9-4510-8C4F-767C1BED9F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A82037-A5E9-4510-8C4F-767C1BED9F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A82037-A5E9-4510-8C4F-767C1BED9F58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
