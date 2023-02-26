@@ -1,6 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace KForceCars.Models;
 
-public class Car
+[PrimaryKey("Id")]
+public class CarModel
 {
     public long Id { get; set; }
     public string Make { get; set; }
