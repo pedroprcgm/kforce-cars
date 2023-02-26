@@ -1,6 +1,7 @@
 ﻿using KForceCars.Data;
 using KForceCars.Models;
 using KForceCars.Services;
+using KForceCars.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,6 @@ namespace KForceCars.Pages;
 
 public class IndexModel : PageModel
 {
-    private const int AcceptMarginErrorPrice = 5000;
     private readonly ICarService _carService;
     public List<CarModel> Cars { get; set; }
     
@@ -41,25 +41,21 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnPostAsync(long id)
     {
-        var car = await _carService.GetByIdAsync(id);
         var price = decimal.Parse(Request.Form["price"].ToString());
-        var messageKey = $"Message-{car.Id}";
-        var statusKey = $"Status-{car.Id}";
-        if (IsValueCorrect(car, price))
+        var messageKey = $"Message-{id}";
+        var statusKey = $"Status-{id}";
+        var (isCorrect, realPrice) = await _carService.IsPriceGuessCorrectAsync(id, price);
+        if (isCorrect)
         {
-            ViewData[messageKey] = $"Great job! The price is {car.Price}";
+            ViewData[messageKey] = $"Great job! The price is ${realPrice}";
             ViewData[statusKey] = true;
         }
         else
         {
-            ViewData[messageKey] = $"Not this time! :( \n Try again";
+            ViewData[messageKey] = $"Not this time! :( \n The price is ${realPrice}";
             ViewData[statusKey] = false;
         }
 
         return Page();
     }
-    
-    private static bool IsValueCorrect(CarModel carModel, decimal price)
-        => price <= carModel.Price + AcceptMarginErrorPrice
-           && price >= carModel.Price - AcceptMarginErrorPrice;
 }

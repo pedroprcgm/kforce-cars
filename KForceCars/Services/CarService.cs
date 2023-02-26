@@ -1,33 +1,35 @@
 using KForceCars.Data;
 using KForceCars.Models;
+using KForceCars.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace KForceCars.Services;
 
 public class CarService : ICarService
 {
-    private readonly CarDbContext _dbContext;
+    private readonly CarDbContext _carDbContext;
     private readonly ILogger<CarService> _logger;
+    private const int AcceptMarginErrorPrice = 5000;
 
-    public CarService(CarDbContext dbContext, ILogger<CarService> logger)
+    public CarService(CarDbContext carDbContext, ILogger<CarService> logger)
     {
-        _dbContext = dbContext;
+        _carDbContext = carDbContext;
         _logger = logger;
     }
 
     public async Task<CarModel> GetByIdAsync(long id)
-        => await _dbContext.Car.FirstOrDefaultAsync(x => x.Id == id);
+        => await _carDbContext.Car.FirstOrDefaultAsync(x => x.Id == id);
 
     public IEnumerable<CarModel> GetAsync()
-        => _dbContext.Car.AsEnumerable();
+        => _carDbContext.Car.AsEnumerable();
 
     public async Task<bool> DeleteAsync(long id)
     {
         try
         {
             var car = await GetByIdAsync(id);
-            _dbContext.Car.Remove(car);
-            await _dbContext.SaveChangesAsync();
+            _carDbContext.Car.Remove(car);
+            await _carDbContext.SaveChangesAsync();
             return true;
         }
         catch (Exception e)
@@ -41,8 +43,8 @@ public class CarService : ICarService
     {
         try
         {
-            _dbContext.Car.Add(carModel);
-            await _dbContext.SaveChangesAsync();
+            _carDbContext.Car.Add(carModel);
+            await _carDbContext.SaveChangesAsync();
             return true;
         }
         catch (Exception e)
@@ -56,8 +58,8 @@ public class CarService : ICarService
     {
         try
         {
-            _dbContext.Car.Update(carModel);
-            await _dbContext.SaveChangesAsync();
+            _carDbContext.Car.Update(carModel);
+            await _carDbContext.SaveChangesAsync();
             return true;
         }
         catch (Exception e)
@@ -65,5 +67,15 @@ public class CarService : ICarService
             _logger.LogError(e, e.Message);
             return false;
         }
+    }
+
+    public async Task<(bool, decimal)> IsPriceGuessCorrectAsync(long carId, decimal price)
+    {
+        var car = await GetByIdAsync(carId);
+
+        return (price.IsBetween(
+                car.Price - AcceptMarginErrorPrice, 
+                car.Price + AcceptMarginErrorPrice),
+                car.Price);
     }
 }

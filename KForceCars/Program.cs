@@ -1,5 +1,6 @@
 using KForceCars.Data;
 using KForceCars.Services;
+using KForceCars.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
