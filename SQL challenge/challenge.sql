@@ -76,3 +76,5 @@ FROM OrderDetails OD
 INNER JOIN Orders O ON O.Orderid = OD.OrderId
 INNER JOIN Customers C on C.PersonId = O.PersonId
 WHERE ProductId = 1112222333;
+
+-- saving just for any case - fiddle http://sqlfiddle.com/#!18/6c823e/5
