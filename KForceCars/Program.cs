@@ -1,7 +1,13 @@
+using KForceCars.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<CarDbContext>(options =>
+    options.UseInMemoryDatabase("KforceCar"));
 
 var app = builder.Build();
 

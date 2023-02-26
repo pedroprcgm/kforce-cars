@@ -1,10 +1,57 @@
 ﻿@page
 @model IndexModel
+
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <h1>Cars</h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Model</th>
+            <th>Make</th>
+            <th>Color</th>
+            <th>Doors</th>
+            <th>Year</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model.Cars)
+            {
+                <tr>
+                    <td>@car.Model</td>
+                    <td>@car.Make</td>
+                    <td>@car.Color</td>
+                    <td>@car.Doors</td>
+                    <td>@car.Year</td>
+                    <td>
+                        <a class="">Price</a>
+                        <a class="" asp-page="/Cars/EditCar" asp-route-id="@car.Id">Edit</a>
+                        <a class="">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @* <ul> *@
+    @*     @foreach (var car in Model.Cars) *@
+    @*     { *@
+    @*         <li> *@
+    @*             <span>@car.Model - @car.Make</span> *@
+    @*             <br/> *@
+    @*             <form method="post"> *@
+    @*                 Try to guess the price: <input type="number" name="price" /> *@
+    @*                 <input name="id" type="number" hidden="hidden" value="@car.Id"/> *@
+    @*                 <button type="submit" class="btn btn-primary">Confirm</button> *@
+    @*             </form> *@
+    @*             @if (ViewData[$"Message-{car.Id}"] != null) *@
+    @*             { *@
+    @*                 <h3>@ViewData[$"Message-{car.Id}"]</h3> *@
+    @*             } *@
+    @*         </li> *@
+    @*     } *@
+    @* </ul> *@
 </div>

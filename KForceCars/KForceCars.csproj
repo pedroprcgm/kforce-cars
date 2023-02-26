@@ -4,6 +4,30 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Content Remove="Pages\Privacy.cshtml" />
+      <Content Remove="Controllers\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Pages\Privacy.cshtml.cs" />
+      <Compile Remove="Controllers\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Controllers\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Controllers\**" />
+    </ItemGroup>
 
 </Project>

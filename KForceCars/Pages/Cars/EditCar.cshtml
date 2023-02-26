@@ -1,19 +1,17 @@
 @page
-@model KForceCars.Pages.Cars.EditCar
+@model KForceCars.Pages.Cars.EditCarModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Edit car";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
-</div>
-</body>
-</html>
+<h1>Edit car @Model.Id</h1>
+<form class="form-control form-control-lg" method="post">
+    <input type="text" placeholder="Model" asp-for="@Model.Car.Model"/>
+    <input type="text" placeholder="Make" asp-for="@Model.Car.Make"/>
+    <input type="text" placeholder="Color" asp-for="@Model.Car.Color"/>
+    <input type="number" placeholder="Doors" asp-for="@Model.Car.Doors"/>
+    <input type="number" placeholder="Year" asp-for="@Model.Car.Year"/>
+    <input type="number" placeholder="Price" asp-for="@Model.Car.Price"/>
+    <button type="submit" class="btn-primary">Submit</button>
+</form>
