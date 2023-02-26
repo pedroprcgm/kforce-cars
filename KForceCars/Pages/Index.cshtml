@@ -1,11 +1,11 @@
-﻿@page
+﻿@page "{handler?}"
 @model IndexModel
 
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div>
+<div class="table-responsive">
     <h1>Cars</h1>
     <table class="table table-bordered table-striped">
         <thead>
@@ -28,9 +28,42 @@
                 <td>@car.Doors</td>
                 <td>@car.Year</td>
                 <td>
-                    <a class="price" data-id="@car.Id">Price</a>
-                    <a class="" asp-page="/Cars/EditCar" asp-route-id="@car.Id">Edit</a>
-                    <a class="">Delete</a>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button class="btn btn-sm btn-info btn-price" data-id="@car.Id">Price</button>
+                                <a class="btn btn-sm btn-light" asp-page="/Cars/EditCar" asp-route-id="@car.Id">Edit</a>
+                                <button class="btn btn-sm btn-danger btn-delete" data-id="@car.Id">Delete</button>
+                            </div>
+                        </div>
+                        <div class="row d-none price-content" id="price-@car.Id">
+                            <div class="col-sm-12">
+                                <form method="post" class="form-inline">
+                                    <div class="form-group mb-3">
+                                        <label for="price">Try to guess the price:</label>
+                                        <input class="form-control form-control-sm" type="number" id="price" name="price"/>
+                                        <input name="id" type="number" hidden="hidden" value="@car.Id"/>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                    </div>
+                                </form>
+                                <div class="col-sm-6">
+                                    @if (ViewData[$"Message-{car.Id}"] != null)
+                                    {
+                                        if (bool.TryParse(ViewData[$"Status-{car.Id}"]?.ToString(), out var status) && status)
+                                        {
+                                            <div class="alert small alert-success" role="alert">@ViewData[$"Message-{car.Id}"]</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-warning" role="alert">@ViewData[$"Message-{car.Id}"]</div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
         }
@@ -38,28 +71,26 @@
     </table>
 </div>
 
-<div id="modal" class="modal fade" role="dialog"></div>
+<div id="delete-modal"></div>
 
 @section scripts{
     <script>
         $(function () {
-            $(".price").click(function () {
-                var id = $(this).attr("data-id");
-                $.ajax({
-                     type: "GET",
-                     url: "/Cars/PriceModal?Id=" + id,
-                     success: function (response) {
-                         $("#modal").html(response);
-                         $("#modal").modal('show');
-                     },
-                     failure: function (response) {
-                         alert(response.responseText);
-                     },
-                     error: function (response) {
-                         alert(response.responseText);
-                     }
-                 });
+            $(".btn-price").click(function () {
+                const id = $(this).attr("data-id");
+                let elem = $(`#price-${id}`);
+                if (elem.attr('class').split(/\s+/).includes('d-none'))
+                    elem.removeClass('d-none');
+                else 
+                    elem.addClass('d-none');
             });
-        })
+            
+            $(".btn-delete").click(function () {
+                const id = $(this).attr("data-id");
+                $("#delete-modal").load(`/Index/deletecar?id=${id}`, null, function () {
+                    $("#delete-modal .modal").modal("show");
+                    });
+            });
+        });
     </script>
 }
