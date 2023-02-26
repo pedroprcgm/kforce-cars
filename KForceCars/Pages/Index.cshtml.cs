@@ -1,5 +1,6 @@
 ﻿using KForceCars.Data;
 using KForceCars.Models;
+using KForceCars.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +10,13 @@ namespace KForceCars.Pages;
 public class IndexModel : PageModel
 {
     private const int AcceptMarginErrorPrice = 5000;
-    private readonly CarDbContext _dbContext;
+    private readonly ICarService _carService;
     public List<CarModel> Cars { get; set; }
     
-    public IndexModel(CarDbContext dbContext)
+    public IndexModel(ICarService carService)
     {
-        _dbContext = dbContext;
-        Cars = _dbContext.Car.ToList();
+        _carService = carService;
+        Cars = _carService.GetAsync().OrderBy(x => x.Id).ToList();
     }
 
     public void OnGet()
@@ -29,20 +30,18 @@ public class IndexModel : PageModel
     
     public async Task<PartialViewResult> OnGetDeleteCarAsync(long id)
     {
-        return Partial("Cars/_DeleteCar", _dbContext.Car.FirstOrDefault(x => x.Id == id));
+        return Partial("Cars/_DeleteCar", await _carService.GetByIdAsync(id));
     }
 
     public async Task<IActionResult> OnPostDeleteCarAsync(long id)
     {
-        var car = await _dbContext.Car.FirstOrDefaultAsync(x => x.Id == id);
-        _dbContext.Car.Remove(car);
-        await _dbContext.SaveChangesAsync();
+        await _carService.DeleteAsync(id);
         return RedirectToPage("/Index");
     }
 
-    public IActionResult OnPost(long id)
+    public async Task<IActionResult> OnPostAsync(long id)
     {
-        var car = _dbContext.Car.FirstOrDefault(x => x.Id == id);
+        var car = await _carService.GetByIdAsync(id);
         var price = decimal.Parse(Request.Form["price"].ToString());
         var messageKey = $"Message-{car.Id}";
         var statusKey = $"Status-{car.Id}";

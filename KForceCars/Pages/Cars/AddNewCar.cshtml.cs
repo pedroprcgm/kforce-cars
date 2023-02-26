@@ -1,5 +1,6 @@
 using KForceCars.Data;
 using KForceCars.Models;
+using KForceCars.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -7,14 +8,14 @@ namespace KForceCars.Pages.Cars;
 
 public class AddNewCarModel : PageModel
 {
-    private readonly CarDbContext _dbContext;
+    private readonly ICarService _carService;
     
     [BindProperty]
     public CarModel Car { get; set; }
     
-    public AddNewCarModel(CarDbContext dbContext)
+    public AddNewCarModel(ICarService carService)
     {
-        _dbContext = dbContext;
+        _carService = carService;
     }
     
     public void OnGet()
@@ -26,9 +27,7 @@ public class AddNewCarModel : PageModel
         if (!ModelState.IsValid)
             return Page();
 
-        _dbContext.Car.Add(Car);
-        await _dbContext.SaveChangesAsync();
-        
+        await _carService.CreateAsync(Car);
         return RedirectToPage("/Index");
     }
 }

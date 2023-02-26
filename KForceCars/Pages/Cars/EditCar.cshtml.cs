@@ -1,6 +1,5 @@
-using KForceCars.Data;
 using KForceCars.Models;
-using Microsoft.AspNetCore.Identity;
+using KForceCars.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,7 +7,7 @@ namespace KForceCars.Pages.Cars;
 
 public class EditCarModel : PageModel
 {
-    private readonly CarDbContext _dbContext;
+    private readonly ICarService _carService;
     
     [BindProperty(SupportsGet = true)]
     public long Id { get; set; }
@@ -16,14 +15,14 @@ public class EditCarModel : PageModel
     [BindProperty]
     public CarModel Car { get; set; }
     
-    public EditCarModel(CarDbContext dbContext)
+    public EditCarModel(ICarService carService)
     {
-        _dbContext = dbContext;
+        _carService = carService;
     }
     
-    public void OnGet()
+    public async Task OnGetAsync()
     {
-        Car = _dbContext.Car.FirstOrDefault(x => x.Id == Id);
+        Car = await _carService.GetByIdAsync(Id);
     }
     
     public async Task<IActionResult> OnPost()
@@ -32,9 +31,8 @@ public class EditCarModel : PageModel
             return Page();
 
         Car.Id = Id;
-        _dbContext.Car.Update(Car);
-        await _dbContext.SaveChangesAsync();
-        
+        await _carService.UpdateAsync(Car);
+            
         return RedirectToPage("/Index");
     }
 }

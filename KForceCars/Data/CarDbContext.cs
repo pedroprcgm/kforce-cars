@@ -1,7 +1,5 @@
-using System.Runtime.CompilerServices;
 using KForceCars.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace KForceCars.Data;
 
