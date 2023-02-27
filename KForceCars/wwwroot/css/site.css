@@ -20,3 +20,11 @@ body {
 .form-group {
   margin-bottom: 15px;
 }
+
+.price-content {
+  padding-top: 10px;
+}
+
+.price-content .alert {
+  margin-top: 15px;
+}
