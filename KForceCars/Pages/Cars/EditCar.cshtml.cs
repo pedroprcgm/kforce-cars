@@ -31,7 +31,6 @@ public class EditCarModel : PageModel
         if (!ModelState.IsValid)
             return Page();
 
-        Car.Id = Id;
         await _carService.UpdateAsync(Car);
             
         return RedirectToPage("/Index");

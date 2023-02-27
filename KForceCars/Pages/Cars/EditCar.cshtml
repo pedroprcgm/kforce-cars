@@ -7,11 +7,34 @@
 
 <h1>Edit car @Model.Id</h1>
 <form class="form-control form-control-lg" method="post">
-    <input type="text" placeholder="Model" asp-for="@Model.Car.Model"/>
-    <input type="text" placeholder="Make" asp-for="@Model.Car.Make"/>
-    <input type="text" placeholder="Color" asp-for="@Model.Car.Color"/>
-    <input type="number" placeholder="Doors" asp-for="@Model.Car.Doors"/>
-    <input type="number" placeholder="Year" asp-for="@Model.Car.Year"/>
-    <input type="number" placeholder="Price" asp-for="@Model.Car.Price"/>
-    <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+ <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="model">Model</label>
+                <input type="text" hidden="hidden" asp-for="@Model.Car.Id"/>
+                <input type="text" id="model" class="form-control" placeholder="Model" asp-for="@Model.Car.Model"/>
+            </div>
+            <div class="form-group">
+                <label for="make">Make</label>
+                <input type="text" id="make" class="form-control" placeholder="Make" asp-for="@Model.Car.Make"/>
+            </div>
+            <div class="form-group">
+                <label for="color">Color</label>
+                <input type="text" id="color" class="form-control" placeholder="Color" asp-for="@Model.Car.Color"/>
+            </div>
+            <div class="form-group">
+                <label for="doors">Doors</label>
+                <input type="number" id="doors" class="form-control" placeholder="Doors" asp-for="@Model.Car.Doors"/>
+            </div>
+            <div class="form-group">
+                <label for="year">Year</label>
+                <input type="number" id="year" class="form-control" placeholder="Year" asp-for="@Model.Car.Year"/>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" id="price" class="form-control" placeholder="Price" asp-for="@Model.Car.Price"/>
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+        </div>
+    </div>
 </form>
